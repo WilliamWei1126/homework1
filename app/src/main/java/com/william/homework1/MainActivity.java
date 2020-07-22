@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import org.opencv.android.InstallCallbackInterface;
+import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
 import org.opencv.core.CvType;
@@ -19,9 +21,28 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 //William's project
 public class MainActivity extends AppCompatActivity {
+    LoaderCallbackInterface loaderCallbackInterface = new LoaderCallbackInterface() {
+        @Override
+        public void onManagerConnected(int status) {
+
+        }
+
+        @Override
+        public void onPackageInstall(int operation, InstallCallbackInterface callback) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (!OpenCVLoader.initDebug()) {
+            boolean success =
+                    OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_4_0
+                            , this, loaderCallbackInterface);
+        }else{
+            loaderCallbackInterface.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
